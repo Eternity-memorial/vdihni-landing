@@ -6,7 +6,7 @@
     <title>Vdihni.si - #1 aplikacija za dihanje v Sloveniji</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     
     <!-- Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -31,12 +31,104 @@
             line-height: 1.6;
             color: var(--text-dark);
             background-color: var(--almost-white);
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(145, 228, 255, 0.6), rgba(9, 189, 247, 0.4), rgba(9, 189, 247, 0.2));
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            box-shadow: 
+                0 5px 15px rgba(9, 189, 247, 0.2),
+                0 10px 30px rgba(9, 189, 247, 0.1),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(145, 228, 255, 0.2);
+        }
+
+        .particle:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            left: 10%;
+            animation-duration: 25s;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            left: 20%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .particle:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            left: 35%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .particle:nth-child(4) {
+            width: 50px;
+            height: 50px;
+            right: 25%;
+            animation-duration: 28s;
+            animation-delay: -8s;
+        }
+
+        .particle:nth-child(5) {
+            width: 35px;
+            height: 35px;
+            right: 10%;
+            animation-duration: 35s;
+            animation-delay: -15s;
+        }
+
+        .particle:nth-child(6) {
+            width: 70px;
+            height: 70px;
+            left: 70%;
+            animation-duration: 22s;
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* Header */
@@ -83,11 +175,22 @@
         }
 
         .hero-content h1 {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-weight: 700;
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 24px;
             line-height: 1.2;
+            min-height: 1.2em;
+        }
+
+        .typing-text {
+            border-right: 3px solid var(--primary-blue);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: var(--primary-blue); }
+            51%, 100% { border-color: transparent; }
         }
 
         .hero-content p {
@@ -113,6 +216,37 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(9, 189, 247, 0.3);
             animation: pulse 2s infinite;
+        }
+
+        .final-cta h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .why-breathing h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        .benefit-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .success-message h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
         @keyframes pulse {
@@ -232,6 +366,16 @@
     </style>
 </head>
 <body>
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -249,7 +393,7 @@
                     <div class="pulse-dot"></div>
                     Prihaja pozimi 2025
                 </div>
-                <h1>#1 aplikacija za dihanje v Sloveniji</h1>
+                <h1 id="typingTitle"></h1>
                 <p>Bodi med prvimi, ki bodo začeli pot do boljšega počutja.</p>
                 
                 <div class="email-signup">
@@ -325,6 +469,49 @@ async function updateCounter() {
     document.getElementById('userCount').textContent = '31 ljudi je že prijavljenih.';
 }
 
+// Typing effect for title with multiple titles
+function typeTitle() {
+    const titles = [
+        "Najdi notranji mir skozi dihanje",
+        "Povečaj svojo energijo in fokus", 
+        "#1 aplikacija za dihanje v Sloveniji"
+    ];
+    
+    const titleElement = document.getElementById('typingTitle');
+    let titleIndex = 0;
+    
+    function typeNextTitle() {
+        if (titleIndex >= titles.length) return;
+        
+        const currentTitle = titles[titleIndex];
+        let charIndex = 0;
+        
+        titleElement.textContent = '';
+        titleElement.className = 'typing-text';
+        
+        function typeChar() {
+            if (charIndex < currentTitle.length) {
+                titleElement.textContent += currentTitle.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeChar, 80);
+            } else {
+                // Remove cursor and wait before next title
+                setTimeout(() => {
+                    titleElement.className = '';
+                    if (titleIndex < titles.length - 1) {
+                        titleIndex++;
+                        setTimeout(typeNextTitle, 1200); // Wait 1.2 seconds before next title
+                    }
+                }, 800);
+            }
+        }
+        
+        typeChar();
+    }
+    
+    typeNextTitle();
+}
+
 // Header scroll effect
 window.addEventListener('scroll', function() {
     const header = document.querySelector('.header');
@@ -337,7 +524,10 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Load initial counter on page load
-window.addEventListener('DOMContentLoaded', updateCounter);
+// Load initial counter and start typing effect on page load
+window.addEventListener('DOMContentLoaded', function() {
+    updateCounter();
+    setTimeout(typeTitle, 500); // Start typing after small delay
+});
 </script>
 </html>
