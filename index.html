@@ -145,6 +145,27 @@
             margin-bottom: 20px;
         }
 
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message h3 {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .success-message p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
         .email-input {
             flex: 1;
             padding: 15px 20px;
@@ -232,10 +253,18 @@
                 <p>Bodi med prvimi, ki bodo začeli pot do boljšega počutja.</p>
                 
                 <div class="email-signup">
+                    <!-- Success Message (hidden by default) -->
+                    <div class="success-message" id="successMessage">
+                        <h3>Uspešno prijavljeni!</h3>
+                        <p>Obvestili te bomo, ko bo Vdihni.si pripravljen.</p>
+                    </div>
+                    
+                    <!-- Email Form -->
                     <form class="email-form" id="emailForm">
                         <input type="email" class="email-input" id="emailInput" placeholder="Vpiši svoj email" required>
                         <button type="submit" class="signup-button">Pridruži se</button>
                     </form>
+                    
                     <div class="social-proof">
                         <span>🔥</span>
                         <span id="userCount">31 ljudi je že prijavljenih.</span>
@@ -275,12 +304,10 @@ document.getElementById('emailForm').addEventListener('submit', async function(e
                 throw error;
             }
         } else {
-            // Success
-            alert('Uspešno prijavljeni! 🎉');
+            // Success - show inline message instead of alert
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('emailForm').style.display = 'none';
             document.getElementById('emailInput').value = '';
-            
-            // Update counter
-            updateCounter();
         }
     } catch (error) {
         console.error('Error:', error);
@@ -294,17 +321,8 @@ document.getElementById('emailForm').addEventListener('submit', async function(e
 
 // Update user counter
 async function updateCounter() {
-    try {
-        const { count, error } = await supabase
-            .from('email_signups')
-            .select('*', { count: 'exact', head: true });
-        
-        if (!error && count !== null) {
-            document.getElementById('userCount').textContent = `${count} ljudi je že prijavljenih.`;
-        }
-    } catch (error) {
-        console.error('Error updating counter:', error);
-    }
+    // Static counter - no need to query database
+    document.getElementById('userCount').textContent = '31 ljudi je že prijavljenih.';
 }
 
 // Header scroll effect
